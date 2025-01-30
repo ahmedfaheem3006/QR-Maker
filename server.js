@@ -76,7 +76,7 @@ app.get("/urls", (req, res) => {
         
         rows = rows.map(row => ({
             ...row,
-            short: `https://qr-maker-fawn.vercel.app/${row.short}` 
+            short: `http://localhost:${PORT}/${row.short}` 
         }));
 
         res.json(rows);
@@ -95,5 +95,3 @@ app.get("/:short", (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
-
-
