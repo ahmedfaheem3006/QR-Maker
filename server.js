@@ -105,7 +105,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = "https://qr-maker-main-production.up.railway.app" || 3000;
+const PORT = process.env.PORT || 3000;
 
 // 🔗 Define Hosted URL (replace with your actual deployed domain)
 const BASE_URL = "https://qr-maker-main-production.up.railway.app"; 
@@ -131,9 +131,12 @@ const db = new sqlite3.Database("./urls.db", (err) => {
     }
 });
 
+
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
+
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 // Make A Fake Url
 app.post("/shorten", (req, res) => {
