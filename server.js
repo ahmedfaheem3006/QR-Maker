@@ -291,7 +291,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+const BASE_URL = "https://qr-maker-production.up.railway.app";
 
 // Create Folder to save QR images
 const uploadDir = path.join(__dirname, "uploads");
