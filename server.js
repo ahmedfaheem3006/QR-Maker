@@ -291,7 +291,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = "https://q3.up.railway.app/";
+const BASE_URL = "https://q2.up.railway.app/";
 
 
 // Create Folder to save QR images
@@ -325,7 +325,7 @@ app.post("/shorten", (req, res) => {
         return res.status(400).json({ error: "❌ يجب إدخال الرابط الأصلي والمختصر." });
     }
 
-    const shortUrl = `https://q3.up.railway.app/${short}`;
+    const shortUrl = `https://q2.up.railway.app/${short}`;
     const qrFilename = `${short}.png`;
     const qrPath = path.join(uploadDir, qrFilename);
 
