@@ -293,6 +293,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = "https://q3.up.railway.app/";
 
+
 // Create Folder to save QR images
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
