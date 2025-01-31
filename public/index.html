@@ -11,34 +11,42 @@
         }
         .qr-item {
             display: flex;
+            flex-direction: column; /* لجعل العناصر فوق بعض */
             align-items: center;
-            margin: 10px 0;
+            margin: 20px 0;
         }
         .qr-item img {
-            width: 100px;
-            height: 100px;
-            margin-left: 10px;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+        .qr-item a {
+            text-decoration: none;
+            color: blue;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-
-    <h2>إنشاء QR Code من رابط</h2>
+<div 
+    >
     
-    <form id="linkForm" dir="rtl">
+    <h2 dir="rtl">إنشاء QR Code من رابط</h2>
+    
+    <form id="linkForm" dir="rtl" >
         <label for="linkInput">الرابط الأصلي:</label>
         <input type="url" id="linkInput" placeholder="أدخل رابط" required>
         <br><br>
 
-        <label for="linkNameInput">الرابط المختصر (اسم مميز):</label>
+        <label for="linkNameInput">الرابط الوهمى:</label>
         <input type="text" id="linkNameInput" placeholder="مثلاً: mylink123" required>
         <br><br>
 
         <button type="submit">إنشاء QR Code</button>
     </form>
 
-    <h3>الروابط المختصرة</h3>
-    <ul id="urlList"></ul>
+   <ul id="urlList"></ul>
+</div>
 
     <script>
         document.getElementById("linkForm").addEventListener("submit", async function(event) {
@@ -47,11 +55,6 @@
             // Get Urls from The html Form 
             var original = document.getElementById("linkInput").value;
             var short = document.getElementById("linkNameInput").value.trim();
-
-            if (!short.match(/^[a-zA-Z0-9_-]+$/)) {
-                alert("❌ يجب أن يتكون الرابط المختصر من حروف وأرقام فقط.");
-                return;
-            }
 
             const response = await fetch("/shorten", {
                 method: "POST",
@@ -81,8 +84,10 @@
                 li.classList.add("qr-item");
 
                 li.innerHTML = `
-                    <img src="${url.qrPath}" alt="QR Code">
-                    <a href="${url.short}" target="_blank">${url.short}</a>
+                    <a href="${url.short}" target="_blank">
+                        <img src="${url.qrPath}" alt="QR Code">
+                    </a>
+                    <a href="${url.short}" target="_blank">${url.short.split('/').pop()}</a>
                 `;
 
                 urlList.appendChild(li);

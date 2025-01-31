@@ -291,7 +291,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = "https://qr-maker-production.up.railway.app";
+const BASE_URL = "https://q3.up.railway.app/";
 
 // Create Folder to save QR images
 const uploadDir = path.join(__dirname, "uploads");
@@ -318,58 +318,23 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
-// Make A Fake Url
-// app.post("/shorten", (req, res) => {
-//     const { original, short } = req.body;
-//     if (!original || !short) {
-//         return res.status(400).json({ error: "❌ يجب إدخال الرابط الأصلي والمختصر." });
-//     }
-
-//     const shortUrl = `${BASE_URL}/${short}`;
-//     const qrFilename = `${short}.png`;
-//     const qrPath = path.join(uploadDir, qrFilename);
-
-//     qr.toFile(qrPath, shortUrl, { errorCorrectionLevel: "H" }, (err) => {
-//         if (err) {
-//             console.error("❌ Error generating QR Code:", err);
-//             return res.status(500).json({ error: "❌ حدث خطأ أثناء إنشاء QR Code." });
-//         }
-
-//         db.run("INSERT INTO urls (original, short, qrPath) VALUES (?, ?, ?)",
-//             [original, short, `/uploads/${qrFilename}`], (err) => {
-//                 if (err) {
-//                     console.error("❌ Error inserting into database:", err);
-//                     return res.status(500).json({ error: "❌ حدث خطأ أثناء حفظ البيانات." });
-//                 }
-
-//                 res.json({
-//                     message: "✅ الرابط المختصر تم إنشاؤه بنجاح!",
-//                     original,
-//                     short: shortUrl,
-//                     qr: `/uploads/${qrFilename}`
-//                 });
-//             });
-//     });
-// });
-
 app.post("/shorten", (req, res) => {
     const { original, short } = req.body;
     if (!original || !short) {
         return res.status(400).json({ error: "❌ يجب إدخال الرابط الأصلي والمختصر." });
     }
 
-    const shortUrl = `https://qr-maker-production.up.railway.app/${short}`;
+    const shortUrl = `https://q3.up.railway.app/${short}`;
     const qrFilename = `${short}.png`;
     const qrPath = path.join(uploadDir, qrFilename);
 
-    // امسح كل البيانات القديمة قبل إدخال الرابط الجديد
     db.run("DELETE FROM urls", (err) => {
         if (err) {
             console.error("❌ Error deleting old data:", err);
             return res.status(500).json({ error: "❌ حدث خطأ أثناء مسح البيانات القديمة." });
         }
 
-        // إنشاء QR جديد
+        // Create QR
         qr.toFile(qrPath, shortUrl, { errorCorrectionLevel: "H" }, (err) => {
             if (err) {
                 console.error("❌ Error generating QR Code:", err);
