@@ -40,9 +40,9 @@ app.post("/shorten", (req, res) => {
         return res.status(400).json({ error: "❌ يجب إدخال الرابط الأصلي والمختصر." });
     }
 
-    // Check if the short link contains a protocol (http:// or https://)
-    if (short.includes("://")) {
-        return res.status(400).json({ error: "❌ لا يمكن استخدام بروتوكول (http:// أو https://) في الرابط الوهمي." });
+    // Check if the short link contains a protocol (http:// or https://) or slashes
+    if (short.includes("://") || short.includes("/")) {
+        return res.status(400).json({ error: "❌ لا يمكن استخدام بروتوكول (http:// أو https://) أو شرطة مائلة (/) في الرابط الوهمي." });
     }
 
     const shortUrl = `https://q2.up.railway.app/${short}`;
