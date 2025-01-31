@@ -45,7 +45,7 @@ app.post("/shorten", (req, res) => {
     //     return res.status(400).json({ error: "❌ لا يمكن استخدام بروتوكول (http:// أو https://) أو شرطة مائلة (/) في الرابط الوهمي." });
     // }
 
-    const shortUrl = `https://q2.up.railway.app/${short}`;
+    const shortUrl = `${short}`;
     const qrFilename = `${short}.png`;
     const qrPath = path.join(uploadDir, qrFilename);
 
