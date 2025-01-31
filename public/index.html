@@ -162,6 +162,9 @@
         button:hover {
             background-color: #218838;
         }
+        ::placeholder{
+            direction: rtl;
+        }
         #urlList {
             list-style-type: none;
             padding: 0;
@@ -191,10 +194,10 @@
         <h2>إنشاء QR Code من رابط</h2>
         <form id="linkForm">
             <label for="linkInput">الرابط الأصلي:</label>
-            <input type="url" id="linkInput" placeholder="أدخل رابط" required>
+            <input type="url" id="linkInput" placeholder="أدخل الرابط الأصلي" required>
             
             <label for="linkNameInput">الرابط الوهمى:</label>
-            <input type="text" id="linkNameInput" placeholder="مثلاً: mylink123" required>
+            <input type="text" id="linkNameInput" placeholder="أدخل الرابط المزيف" required>
             
             <button type="submit">إنشاء QR Code</button>
         </form>
