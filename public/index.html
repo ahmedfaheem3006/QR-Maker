@@ -157,9 +157,9 @@
             <a href="${url.original}" target="_blank">
                 <img src="${url.qrPath}" alt="QR Code">
             </a>
-            <a href="${url.original}" target="_blank">${url.short}</a>
+            <a href="${url.original}" target="_blank">${url.short.split('/n').pop()}</a>
         `;
-
+            //{url.short.split('/').pop()}
           urlList.appendChild(li);
         });
       }
