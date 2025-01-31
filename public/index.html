@@ -1,258 +1,169 @@
-<!-- <!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء QR Code</title>
-    <style>
-        #qrcode {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .qr-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .qr-item img {
-            width: 150px;
-            height: 150px;
-            cursor: pointer;
-        }
-        .qr-item a {
-            text-decoration: none;
-            color: blue;
-            font-size: 18px;
-        }
-    </style>
-</head>
-<body>
-<div
-    
-    >
-    
-    <h2 dir="rtl">إنشاء QR Code من رابط</h2>
-    
-    <form id="linkForm" dir="rtl" >
-        <label for="linkInput">الرابط الأصلي:</label>
-        <input type="url" id="linkInput" placeholder="أدخل رابط" required>
-        <br><br>
-
-        <label for="linkNameInput">الرابط الوهمى:</label>
-        <input type="text" id="linkNameInput" placeholder="مثلاً: mylink123" required>
-        <br><br>
-
-        <button type="submit">إنشاء QR Code</button>
-    </form>
-
-   <ul id="urlList"></ul>
-</div>
-
-    <script>
-        document.getElementById("linkForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            
-            // Get Urls from The html Form 
-            var original = document.getElementById("linkInput").value;
-            var short = document.getElementById("linkNameInput").value.trim();
-
-            const response = await fetch("/shorten", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ original, short })
-            });
-
-            const data = await response.json();
-            alert(data.message || data.error);
-
-            // refresh page
-            if (response.ok) {
-                fetchUrls();
-            }
-        });
-
-        // Get All Urls
-        async function fetchUrls() {
-            const response = await fetch("/urls");
-            const urls = await response.json();
-
-            const urlList = document.getElementById("urlList");
-            urlList.innerHTML = "";
-
-            urls.forEach(url => {
-                const li = document.createElement("li");
-                li.classList.add("qr-item");
-
-                li.innerHTML = `
-                    <a href="${url.short}" target="_blank">
-                        <img src="${url.qrPath}" alt="QR Code">
-                    </a>
-                    <a href="${url.short}" target="_blank">${url.short.split('/').pop()}</a>
-                `;
-
-                urlList.appendChild(li);
-            });
-        }
-
-        fetchUrls();
-    </script>
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>إنشاء QR Code</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-            direction: rtl;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-            direction: rtl;
-        }
-        input {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        ::placeholder{
-            direction: rtl;
-            text-align: right;
-        }
-        #urlList {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-        .qr-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .qr-item img {
-            width: 150px;
-            height: 150px;
-            cursor: pointer;
-        }
-        .qr-item a {
-            text-decoration: none;
-            color: blue;
-            font-size: 18px;
-            margin-top: 10px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+        direction: rtl;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+        direction: rtl;
+      }
+      input {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      button {
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+      ::placeholder {
+        direction: rtl;
+        text-align: right;
+      }
+      #urlList {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+      .qr-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+      }
+      .qr-item img {
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+      }
+      .qr-item a {
+        text-decoration: none;
+        color: blue;
+        font-size: 18px;
+        margin-top: 10px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h2>إنشاء QR Code من رابط</h2>
-        <form id="linkForm">
-            <label for="linkInput">الرابط الأصلي:</label>
-            <input type="url" id="linkInput" placeholder="أدخل الرابط الأصلي" required>
-            
-            <label for="linkNameInput">الرابط الوهمى:</label>
-            <input type="text" id="linkNameInput" placeholder="أدخل الرابط المزيف" required>
-            
-            <button type="submit">إنشاء QR Code</button>
-        </form>
-        
-        <ul id="urlList"></ul>
+      <h2>إنشاء QR Code من رابط</h2>
+      <form id="linkForm">
+        <label for="linkInput">الرابط الأصلي:</label>
+        <input
+          type="url"
+          id="linkInput"
+          placeholder="أدخل الرابط الأصلي"
+          required
+        />
+
+        <label for="linkNameInput">الرابط الوهمى:</label>
+        <input
+          type="text"
+          id="linkNameInput"
+          placeholder="أدخل الرابط المزيف"
+          required
+        />
+
+        <button type="submit">إنشاء QR Code</button>
+      </form>
+
+      <ul id="urlList"></ul>
     </div>
 
     <script>
-        document.getElementById("linkForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            
-            // Get Urls from The html Form 
-            var original = document.getElementById("linkInput").value;
-            var short = document.getElementById("linkNameInput").value.trim();
+      document
+        .getElementById("linkForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-            const response = await fetch("/shorten", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ original, short })
-            });
+          // Get Urls from The html Form
+          var original = document.getElementById("linkInput").value;
+          var short = document.getElementById("linkNameInput").value.trim();
 
-            const data = await response.json();
-            alert(data.message || data.error);
+          const response = await fetch("/shorten", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ original, short }),
+          });
 
-            // refresh page
-            if (response.ok) {
-                fetchUrls();
-            }
+          const data = await response.json();
+          alert(data.message || data.error);
+
+          // refresh page
+          if (response.ok) {
+            fetchUrls();
+          }
         });
 
-        // Get All Urls
-        async function fetchUrls() {
-            const response = await fetch("/urls");
-            const urls = await response.json();
+      // Get All Urls
+      async function fetchUrls() {
+        const response = await fetch("/urls");
+        const urls = await response.json();
 
-            const urlList = document.getElementById("urlList");
-            urlList.innerHTML = "";
+        const urlList = document.getElementById("urlList");
+        urlList.innerHTML = "";
 
-            urls.forEach(url => {
-                const li = document.createElement("li");
-                li.classList.add("qr-item");
+        urls.forEach((url) => {
+          const li = document.createElement("li");
+          li.classList.add("qr-item");
 
-                li.innerHTML = `
-                    <a href="${url.short}" target="_blank">
-                        <img src="${url.qrPath}" alt="QR Code">
-                    </a>
-                    <a href="${url.short}" target="_blank">${url.short.split('/').pop()}</a>
-                `;
+          li.innerHTML = `
+            <a href="${url.original}" target="_blank">
+                <img src="${url.qrPath}" alt="QR Code">
+            </a>
+            <a href="${url.original}" target="_blank">${url.short
+            .split("/")
+            .pop()}</a>
+        `;
 
-                urlList.appendChild(li);
-            });
-        }
+          urlList.appendChild(li);
+        });
+      }
 
-        fetchUrls();
+      fetchUrls();
     </script>
-</body>
+  </body>
 </html>
