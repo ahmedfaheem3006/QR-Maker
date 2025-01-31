@@ -90,7 +90,8 @@ app.get("/urls", (req, res) => {
 
         rows = rows.map(row => ({
             ...row,
-            short: `${BASE_URL}${row.short}` // ✅ إرجاع الرابط الوهمي كاملاً بدون "/"
+            short: `${row.short}` // ✅ إرجاع الرابط الوهمي كاملاً بدون "/"
+            // short: `${BASE_URL}${row.short}` 
         }));
 
         res.json(rows);
