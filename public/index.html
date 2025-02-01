@@ -124,7 +124,7 @@
           var short = document.getElementById("linkNameInput").value.trim();
 
           // Remove http:// or https:// and trailing slashes from the short link
-        //   short = short.replace(/^https?:\/\//, "").replace(/\//g, "");
+          short = short.replace(/^https?:\/\//, "").replace(/\//g, "");
 
           const response = await fetch("/shorten", {
             method: "POST",
